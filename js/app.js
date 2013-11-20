@@ -39,13 +39,22 @@ App.Router.map(function() {
 
 App.PeopleRoute = Ember.Route.extend({
   model: function() {
-    return people;
+    return $.getJSON('http://api.opensupporter.org/api/v1/people').then(function(data) {
+      return data._embedded.people.map(function(person) {
+        person.first_name = person.first_name;
+        return person;
+      });
+  });
   }
 });
+  
 
 App.PersonRoute = Ember.Route.extend({
   model: function(params) {
-    return people.findBy('id', params.people_id);
+    return $.getJSON('http://api.opensupporter.org/api/v1/people/' + params.person_id ).then(function(data) {
+      data.first_name = data.first_name;
+      return data;
+    })
   }
 });
 
