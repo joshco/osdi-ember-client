@@ -1,5 +1,19 @@
 App = Ember.Application.create({});
 
+var people = [{
+  id: '1',
+  first_name: 'Josh',
+  last_name: 'Cohen',
+  email : 'josh@example.com',
+  date: "2013-01-01"
+}, {
+  id: '2',
+  first_name: "Topper",
+  last_name: "Bowers",
+  email: "topper@example.com",
+  date: "2013-11-01"
+}]
+
 var posts = [{
   id: '1',
   title: "Rails is Omakase",
@@ -18,24 +32,24 @@ var posts = [{
 
 App.Router.map(function() {
   this.resource('about');
-  this.resource('posts', function() {
-    this.resource('post', { path: ':post_id' });
+  this.resource('people', function() {
+    this.resource('person', { path: ':person_id' });
   });
 });
 
-App.PostsRoute = Ember.Route.extend({
+App.PeopleRoute = Ember.Route.extend({
   model: function() {
-    return posts;
+    return people;
   }
 });
 
-App.PostRoute = Ember.Route.extend({
+App.PersonRoute = Ember.Route.extend({
   model: function(params) {
-    return posts.findBy('id', params.post_id);
+    return people.findBy('id', params.people_id);
   }
 });
 
-App.PostController = Ember.ObjectController.extend({
+App.PersonController = Ember.ObjectController.extend({
   isEditing: false,
 
   edit: function() {
